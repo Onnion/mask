@@ -1,32 +1,35 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import {mask} from '../utils/mask'
 
 @Pipe({
-  name: 'cpfPipe'
+  name: 'cpf'
 })
 export class CpfPipe implements PipeTransform {
-  mask: string = '999.999.999-99'
+  mask: string = "999.999.999-99"
+
   transform(value: any, args?: any): any {
-    var valor = value.replace(/\D/g, '');
-    var pad = this.mask.replace(/\D/g, '').replace(/9/g, '_');
-    var valorMask = valor + pad.substring(0, pad.length - valor.length);
+    return mask(value, this.mask);
+    // var valor = value.replace(/\D/g, '');
+    // var pad = this.mask.replace(/\D/g, '').replace(/9/g, '_');
+    // var valorMask = valor + pad.substring(0, pad.length - valor.length);
 
-    var valorMaskPos = 0;
-    valor = '';
-    for (var i = 0; i < this.mask.length; i++) {
-      if (isNaN(parseInt(this.mask.charAt(i)))) {
-        valor += this.mask.charAt(i);
-      } else {
-        valor += valorMask[valorMaskPos++];
-      }
-    }
+    // var valorMaskPos = 0;
+    // valor = '';
+    // for (var i = 0; i < this.mask.length; i++) {
+    //   if (isNaN(parseInt(this.mask.charAt(i)))) {
+    //     valor += this.mask.charAt(i);
+    //   } else {
+    //     valor += valorMask[valorMaskPos++];
+    //   }
+    // }
     
-    if (valor.indexOf('_') > -1) {
-      valor = valor.substr(0, valor.indexOf('_'));
-    }
+    // if (valor.indexOf('_') > -1) {
+    //   valor = valor.substr(0, valor.indexOf('_'));
+    // }
  
-    value = valor;
+    // value = valor;
 
-    return value;
+    // return value;
   }
 
 }
