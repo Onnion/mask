@@ -4,13 +4,14 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { MaskDirective } from './shared/directives/mask.directive';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {CpfPipe} from './shared/pipes/cpf.pipe'
+import {CpfPipe, CnpjPipe} from './shared/pipes/index'
 
 @NgModule({
   declarations: [
     AppComponent,
     MaskDirective,
-    CpfPipe
+    CpfPipe,
+    CnpjPipe
   ],
   imports: [
     BrowserModule,

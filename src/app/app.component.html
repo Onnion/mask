@@ -1,4 +1,7 @@
 
-<input type="text" placeholder="cpf" mask="999.999.999-99">
+<input type="text" placeholder="CPF" mask="CPF">
+<input type="text" placeholder="CNPJ" mask="CNPJ">
 
-{{name | cpf}}
+
+<p>{{cleanCpf | cpf}}</p>
+<p>{{cleanCnpj | cnpj}}</p>

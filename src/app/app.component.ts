@@ -7,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  name:string = "10832773409"
+  cleanCpf:string = "10832773409"
+  cleanCnpj:string = "92994929395669"
 }
