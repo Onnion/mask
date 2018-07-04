@@ -4,6 +4,7 @@ import {
 } from '@angular/forms';
 
 import {mask} from '../utils/mask'
+import {masks} from '../helpers/consts'
  
 @Directive({
   selector: '[mask]',
@@ -20,9 +21,6 @@ export class MaskDirective implements ControlValueAccessor {
  
   @Input('mask') type: string;
 
-  private CPF_MASK = "999.999.999-99"
-  private CNPJ_MASK = "99.999.999/9999-99"
-
   writeValue(value: any): void {}
   registerOnChange(fn: any): void {this.onChange = fn;}
   registerOnTouched(fn: any): void {this.onTouched = fn;}
@@ -35,12 +33,12 @@ export class MaskDirective implements ControlValueAccessor {
     if ($event.keyCode === 8) {
       return;
     }else{
-      $event.target.value = mask($event.target.value, this.maskType())
+      $event.target.value = mask($event.target.value, masks[this.type])
     }
   }
   @HostListener('blur', ['$event']) 
   onBlur($event: any) {
-    if ($event.target.value.length === this.maskType().length) {
+    if ($event.target.value.length === masks[this.type].length) {
       return;
     }
     $event.target.value = '';
@@ -50,14 +48,6 @@ export class MaskDirective implements ControlValueAccessor {
 
 
 
-  private maskType(){
-    switch(this.type){
-      case 'CPF':
-        return this.CPF_MASK
-      case 'CNPJ':
-        return this.CNPJ_MASK
-    }
-  }
 
 }
 

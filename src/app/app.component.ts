@@ -9,4 +9,5 @@ import { Component } from '@angular/core';
 export class AppComponent {
   cleanCpf:string = "10832773409"
   cleanCnpj:string = "92994929395669"
+
 }
