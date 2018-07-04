@@ -28,8 +28,7 @@ export class MaskDirective implements ControlValueAccessor {
 
     if ($event.keyCode !== 8) {
       const newValue = maskFormat($event.target.value, masks[this.type]);
-      $event.target.value = newValue;
-      this.writeValue(newValue);
+      this.tranform($event, newValue);
 
     }
 
@@ -40,10 +39,15 @@ export class MaskDirective implements ControlValueAccessor {
   onBlur($event: any) {
     if ($event.target.value.length > masks[this.type].length) {
       const newValue = $event.target.value.slice(0, 14);
-      $event.target.value = newValue;
-      this.writeValue(newValue);
+      this.tranform($event, newValue);
     }
 
+  }
+
+
+  private tranform = ($event, value) => {
+    $event.target.value = value;
+    this.writeValue(value);
   }
 
 
