@@ -1,66 +1,50 @@
 import { Directive, HostListener, Input } from '@angular/core';
-import { 
-  NG_VALUE_ACCESSOR, ControlValueAccessor 
-} from '@angular/forms';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { masks } from '../helpers/consts/consts.helpers';
+import { maskFormat } from '../utils/mask.utils';
 
-import {mask} from '../utils/mask'
- 
 @Directive({
   selector: '[mask]',
   providers: [{
-    provide: NG_VALUE_ACCESSOR, 
-    useExisting: MaskDirective, 
-    multi: true 
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: MaskDirective,
+    multi: true
   }]
 })
 export class MaskDirective implements ControlValueAccessor {
- 
-  onTouched: any;
-  onChange: any;
- 
+
   @Input('mask') type: string;
 
-  private CPF_MASK = "999.999.999-99"
-  private CNPJ_MASK = "99.999.999/9999-99"
+  private onTouched: any;
+  private onChange = (value: any) => {};
 
-  writeValue(value: any): void {}
-  registerOnChange(fn: any): void {this.onChange = fn;}
-  registerOnTouched(fn: any): void {this.onTouched = fn;}
- 
+  writeValue(value: any): void { this.onChange(value); }
+  registerOnChange(fn: any): void { this.onChange = fn; }
+  registerOnTouched(fn: any): void { this.onTouched = fn; }
 
-  
-  @HostListener('keyup', ['$event']) 
+
+  @HostListener('keyup', ['$event'])
   onKeyup($event: any) {
-    // retorna caso pressionado backspace
-    if ($event.keyCode === 8) {
-      return;
-    }else{
-      $event.target.value = mask($event.target.value, this.maskType())
+
+    if ($event.keyCode !== 8) {
+      const newValue = maskFormat($event.target.value, masks[this.type]);
+      $event.target.value = newValue;
+      this.writeValue(newValue);
+
     }
+
   }
-  @HostListener('blur', ['$event']) 
+
+
+  @HostListener('blur', ['$event'])
   onBlur($event: any) {
-    if ($event.target.value.length === this.maskType().length) {
-      return;
+    if ($event.target.value.length > masks[this.type].length) {
+      const newValue = $event.target.value.slice(0, 14);
+      $event.target.value = newValue;
+      this.writeValue(newValue);
     }
-    $event.target.value = '';
+
   }
 
-
-
-
-
-  private maskType(){
-    switch(this.type){
-      case 'CPF':
-        return this.CPF_MASK
-      case 'CNPJ':
-        return this.CNPJ_MASK
-    }
-  }
 
 }
-
-
-
-
