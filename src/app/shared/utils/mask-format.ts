@@ -1,4 +1,4 @@
-export const mask = (value: any, mask: string): string => {
+export const maskFormat = (value: any, mask: string): string => {
     var valor = value.replace(/\D/g, '');
     var pad = mask.replace(/\D/g, '').replace(/9/g, '_');
     var valorMask = valor + pad.substring(0, pad.length - valor.length);

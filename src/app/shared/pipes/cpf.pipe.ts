@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {mask} from '../utils/mask'
+import { maskFormat } from '../utils/mask-format'
 import { masks } from '../helpers/consts';
 
 @Pipe({
@@ -8,7 +8,7 @@ import { masks } from '../helpers/consts';
 export class CpfPipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
-    return mask(value, masks['CPF']);
+    return maskFormat(value, masks['CPF']);
   }
 
 }

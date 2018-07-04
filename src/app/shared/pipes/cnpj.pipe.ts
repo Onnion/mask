@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {mask} from '../utils/mask'
-import {masks} from '../helpers/consts'
+import { maskFormat } from '../utils/mask-format'
+import { masks } from '../helpers/consts'
 
 @Pipe({
   name: 'cnpj'
@@ -8,7 +8,7 @@ import {masks} from '../helpers/consts'
 export class CnpjPipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
-    return mask(value, masks['CNPJ']);
+    return maskFormat(value, masks['CNPJ']);
   }
 
 }
