@@ -25,13 +25,29 @@ export class MaskDirective implements ControlValueAccessor {
 
   @HostListener('keyup', ['$event'])
   onKeyup($event: any) {
+    let _mask = masks[this.type.toUpperCase()];
 
     if ($event.keyCode !== 8) {
-      const newValue = maskFormat($event.target.value, masks[this.type]);
-      this.tranform($event, newValue);
+
+      if (this.type.toUpperCase() === 'PHONE') {
+        const length = $event.target.value.length;
+        if (length > 14) { _mask = masks['PHONE_D']; }
+
+      }
+
+      const newValue = maskFormat($event.target.value, _mask);
+      this.transform($event, newValue);
 
     } else {
-      this.tranform($event, $event.target.value);
+      let newValue = $event.target.value;
+
+      if (this.type.toUpperCase() === 'PHONE') {
+        const length = $event.target.value.length;
+        if (length > 14) { newValue = maskFormat($event.target.value, masks['PHONE']); }
+
+      }
+
+      this.transform($event, newValue);
 
     }
 
@@ -40,18 +56,21 @@ export class MaskDirective implements ControlValueAccessor {
 
   @HostListener('blur', ['$event'])
   onBlur($event: any) {
-    if ($event.target.value.length > masks[this.type].length) {
-      const newValue = $event.target.value.slice(0, masks[this.type].length);
-      this.tranform($event, newValue);
+    if ($event.target.value.length > masks[this.type.toUpperCase()].length) {
+      const newValue = $event.target.value.slice(0, masks[this.type.toUpperCase()].length);
+      this.transform($event, newValue);
     }
 
   }
 
 
-  private tranform = ($event, value) => {
+  private transform = ($event, value) => {
     $event.target.value = value;
     this.writeValue(value);
   }
+
+
+  private validationPhone () {}
 
 
 }
