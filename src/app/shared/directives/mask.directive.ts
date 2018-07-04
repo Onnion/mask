@@ -30,6 +30,9 @@ export class MaskDirective implements ControlValueAccessor {
       const newValue = maskFormat($event.target.value, masks[this.type]);
       this.tranform($event, newValue);
 
+    } else {
+      this.tranform($event, $event.target.value);
+
     }
 
   }
