@@ -1,7 +1,13 @@
+<ul>
+    <li>
+        <a routerLink="">Menu</a>
+    </li>
+    <li>
+        <a routerLink="mask">Máscaras</a>
+    </li>
 
-<input type="text" placeholder="CPF" mask="CPF">
-<input type="text" placeholder="CNPJ" mask="CNPJ">
+</ul>
 
+<br>
 
-<p>{{cleanCpf | cpf}}</p>
-<p>{{cleanCnpj | cnpj}}</p>
+<router-outlet></router-outlet>
