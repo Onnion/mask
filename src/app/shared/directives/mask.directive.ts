@@ -1,7 +1,7 @@
 import { Directive, HostListener, Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import { masks } from '../helpers/consts';
-import { maskFormat } from '../utils/mask-format';
+import { masks } from '../helpers/consts/consts.helpers';
+import { maskFormat } from '../utils/mask.utils';
 
 @Directive({
   selector: '[mask]',
@@ -16,6 +16,7 @@ export class MaskDirective implements ControlValueAccessor {
   @Input('mask') type: string;
 
   private onTouched: any;
+  private localType: string;
   private onChange = (value: any) => {};
 
   writeValue(value: any): void { this.onChange(value); }
@@ -31,7 +32,11 @@ export class MaskDirective implements ControlValueAccessor {
 
       if (this.type.toUpperCase() === 'PHONE') {
         const length = $event.target.value.length;
-        if (length > 14) { _mask = masks['PHONE_D']; }
+        if (length > 14) {
+          this.localType = 'PHONE_D';
+          _mask = masks[this.localType];
+
+        }
 
       }
 
@@ -43,7 +48,9 @@ export class MaskDirective implements ControlValueAccessor {
 
       if (this.type.toUpperCase() === 'PHONE') {
         const length = $event.target.value.length;
-        if (length > 14) { newValue = maskFormat($event.target.value, masks['PHONE']); }
+        if (length > 14) {
+          newValue = maskFormat($event.target.value, masks['PHONE']);
+        }
 
       }
 
@@ -56,7 +63,10 @@ export class MaskDirective implements ControlValueAccessor {
 
   @HostListener('blur', ['$event'])
   onBlur($event: any) {
-    if ($event.target.value.length > masks[this.type.toUpperCase()].length) {
+
+    const type = this.localType ? this.localType : this.type;
+
+    if ($event.target.value.length > masks[type.toUpperCase()].length) {
       const newValue = $event.target.value.slice(0, masks[this.type.toUpperCase()].length);
       this.transform($event, newValue);
     }
@@ -67,10 +77,6 @@ export class MaskDirective implements ControlValueAccessor {
   private transform = ($event, value) => {
     $event.target.value = value;
     this.writeValue(value);
-  }
-
-
-  private validationPhone () {}
-
+  };
 
 }
